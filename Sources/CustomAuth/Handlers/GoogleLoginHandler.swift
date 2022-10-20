@@ -92,6 +92,7 @@ class GoogleloginHandler: AbstractLoginHandler{
                     }
                 }.done{ data, idToken in
                     let dictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String:Any]
+                    dictionary["idToken"] = idToken
                     self.userInfo = dictionary
                     var newData:[String:Any] = ["userInfo": self.userInfo as Any]
                     newData["tokenForKeys"] = idToken
@@ -110,6 +111,7 @@ class GoogleloginHandler: AbstractLoginHandler{
                 self.urlSession.dataTask(.promise, with: request).map{
                     try JSONSerialization.jsonObject(with: $0.data) as? [String:Any]
                 }.done{ data in
+                    data["idToken"] = idToken
                     self.userInfo =  data
                     var newData:[String:Any] = ["userInfo": self.userInfo as Any]
                     newData["tokenForKeys"] = idToken
