@@ -87,6 +87,7 @@ class GoogleloginHandler: AbstractLoginHandler {
                         let data = val2.0
                         let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
                         self.userInfo = dictionary
+                        self.userInfo?["idToken"] = idToken
                         var newData: [String: Any] = ["userInfo": self.userInfo as Any]
                         newData["tokenForKeys"] = idToken
                         newData["verifierId"] = self.getVerifierFromUserInfo()
@@ -108,6 +109,7 @@ class GoogleloginHandler: AbstractLoginHandler {
                let val = try await self.urlSession.data(for: request)
                 let data = try JSONSerialization.jsonObject(with: val.0) as? [String: Any] ?? [:]
                     self.userInfo =  data
+                    self.userInfo?["idToken"] = idToken
                     var newData: [String: Any] = ["userInfo": self.userInfo as Any]
                     newData["tokenForKeys"] = idToken
                     newData["verifierId"] = self.getVerifierFromUserInfo()
